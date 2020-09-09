@@ -1,0 +1,20 @@
+.title{
+    background-color: dodgerblue;
+    height: 10rem;
+    background-size: 100% 100%;
+    color: white;
+    text-align: center;
+    padding-top: 1rem;
+}
+.menu{
+    height: 40rem;
+    border: 1px solid dodgerblue;
+    border-radius: 20px;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+.menu1{
+    height: 33.3%;
+    padding: 1rem;
+}
+

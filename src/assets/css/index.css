@@ -1,0 +1,25 @@
+.title{
+    background-image: url("../img/phonetitle1.jpg");
+    height: 15rem;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    
+}
+.menu{
+    height: 16rem;
+    border: 1px solid dodgerblue;
+    border-radius: 20px;
+    margin-top: 1rem;
+}
+.menu1{
+    height: 50%;
+}
+.menu2{
+    height: 50%;
+}
+.zh_search{
+    width: 35%;height: 35%;
+    margin-top: 3rem;
+    font-size: large;
+}
