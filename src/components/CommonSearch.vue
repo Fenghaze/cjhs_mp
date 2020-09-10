@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="title1">
+    <!-- 标题 -->
+    <div class="search_title">
       <h1 style="margin-top: 15px;">综合查询</h1>
     </div>
-    <div class="menu1">
+    <!-- 综合查询表单 -->
+    <div class="search_menu">
       <el-form :label-position="labelPosition" label-width="80px" :model="form">
         <el-form-item label="查询标题">
           <el-input v-model="form.title"></el-input>
@@ -64,6 +66,7 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- 查询结果 -->
     <div style="font-size: large;padding: 1rem">
       <b style="float:left">查询结果</b>
       <el-table :data="results" stripe style="width: 100%">
@@ -92,8 +95,8 @@ export default {
     return {
       labelPosition: "right",
       form: {
-        title: "",
-        content: "",
+        title: "",    // 查询标题
+        content: "",  // 查询内容
         service_type: "全部", // 业务类型
         scope: "全部", // 效力层级
         dept: "全部", //颁布单位
@@ -134,19 +137,20 @@ export default {
           "长江海事局",
           "江苏海事局",
         ], //颁布单位
-        effect_time_start: "",
-        effect_time_end: "",
-        pub_time_start: "",
-        pub_time_end: "",
+        effect_time_start: "",  // 开始生效时间
+        effect_time_end: "",    // 结束生效时间
+        pub_time_start: "",     // 开始发布时间
+        pub_time_end: "",       // 结束发布时间
       },
-      results: [],
-      page: 1,
-      total: "",
+      results: [],  // 存放查询结果
+      page: 1,      // 页码，默认为 1
+      total: "",    // 查询总数
     };
   },
   methods: {
     onSubmit() {
       var that = this;
+      /* 将表单内容添加到formdata中，post请求后台 */
       let formdata = new FormData();
       formdata.append("title", this.form.title);
       formdata.append("content", this.form.content);
@@ -171,25 +175,23 @@ export default {
           "Content-Type": "multipart/form-data", //以表单传数据的格式来传递 fromdata
         },
       };
-      this.axios
-        .post("/criteria_query?page=" + that.page, formdata, config)
-        .then(function (response) {
-          that.results = response.data.fileDTOS;
-          that.total = response.data.all_count;
-        })
-        .catch(function (error) {
-          alert(error);
-        });
-        this.title='',//查询标题
-        this.content='',//查询内容
-        this.service_type='全部', // 业务类型
-        this.file_type='全部',//文件类型
-        this.scope='全部',// 效力层级
-        this.dept='全部',//颁布单位
-        this.effect_time_start='',
-        this.effect_time_end='',
-        this.pub_time_start='',
-        this.pub_time_end=''
+      this.axios.post("/criteria_query?page=" + that.page, formdata, config).then(function (response) {
+        that.results = response.data.fileDTOS;
+        that.total = response.data.all_count;
+      }).catch(function (error) {
+        alert(error);
+      });
+      // 查询成功后，清空表单
+      this.title='',//查询标题
+      this.content='',//查询内容
+      this.service_type='全部', // 业务类型
+      this.file_type='全部',//文件类型
+      this.scope='全部',// 效力层级
+      this.dept='全部',//颁布单位
+      this.effect_time_start='',
+      this.effect_time_end='',
+      this.pub_time_start='',
+      this.pub_time_end=''
     },
   },
 };

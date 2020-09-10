@@ -12,7 +12,9 @@ Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
-axios.defaults.baseURL='http://10.138.105.177:8080'
+
+// 后台接口地址
+axios.defaults.baseURL='http://10.141.111.165:8080'
 
 new Vue({
   render: h => h(App),

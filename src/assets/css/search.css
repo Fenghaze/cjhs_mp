@@ -1,4 +1,4 @@
-.title1{
+.search_title{
     background-color: dodgerblue;
     height: 7rem;
     background-size: 100% 100%;
@@ -6,7 +6,7 @@
     text-align: center;
     padding-top: 1rem;
 }
-.menu1{
+.search_menu{
     height: 45rem;
     border: 1px solid dodgerblue;
     border-radius: 20px;

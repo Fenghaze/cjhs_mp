@@ -1,23 +1,15 @@
-.title{
+.scope_title{
     background-color: dodgerblue;
-    height: 10rem;
+    height: 7rem;
     background-size: 100% 100%;
     color: white;
     text-align: center;
     padding-top: 1rem;
 }
-.menu{
-    height: 30rem;
+.scope_menu{
+    height: 18rem;
     border: 1px solid dodgerblue;
     border-radius: 20px;
     margin-top: 1rem;
-    padding: 1rem;
-}
-.menu1{
-    height: 50%;
-    padding: 1rem;
-}
-.menu2{
-    height: 50%;
     padding: 1rem;
 }
