@@ -62,41 +62,57 @@
         </el-form-item>
         <el-form-item style="float:right">
           <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button>重置</el-button>
+          <el-button type="primary" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
     <!-- 查询结果 -->
     <div style="font-size: large;padding: 1rem">
       <b style="float:left">查询结果</b>
-      <el-table :data="results" stripe style="width: 100%">
+      <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="130">
           <template slot-scope="scope">
-            <a
-              :href="'http://10.138.105.177:8080/file/show/' + scope.row.id"
+            <!-- <a
+              :href="'http://10.141.111.165:8080/file/show/' + scope.row.id"
               v-html="scope.row.name"
-            ></a>
+            ></a>-->
+            <iframe
+              id="pdfPlayer"
+              src="' +URL + '接口?fileName=' +Url) + '"
+              frameborder="0"
+              width="100%"
+              height="600px"
+            ></iframe>
+            <button @click="file_show(scope.row.id)">查看</button>
           </template>
         </el-table-column>
         <el-table-column prop="content" label="相关内容" width="130"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <a :href="'http://10.138.105.177:8080/file/download/' + scope.row.id">下载</a>
+            <a :href="'http://10.141.111.165:8080/file/download/' + scope.row.id">下载</a>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <pagination :results_len="$store.state.total" :path_name="'common_search'"></pagination>
   </div>
 </template>
 
 <script>
+import pagination from "./subcomponents/Pagination.vue";
+import PDF from "pdfjs-dist";
+PDF.disableWorker = true;
 export default {
   data() {
     return {
+      width: 100,
+      pdfDoc: null,
+      pages: 0,
+
       labelPosition: "right",
       form: {
-        title: "",    // 查询标题
-        content: "",  // 查询内容
+        title: "", // 查询标题
+        content: "", // 查询内容
         service_type: "全部", // 业务类型
         scope: "全部", // 效力层级
         dept: "全部", //颁布单位
@@ -137,62 +153,55 @@ export default {
           "长江海事局",
           "江苏海事局",
         ], //颁布单位
-        effect_time_start: "",  // 开始生效时间
-        effect_time_end: "",    // 结束生效时间
-        pub_time_start: "",     // 开始发布时间
-        pub_time_end: "",       // 结束发布时间
+        effect_time_start: "", // 开始生效时间
+        effect_time_end: "", // 结束生效时间
+        pub_time_start: "", // 开始发布时间
+        pub_time_end: "", // 结束发布时间
       },
-      results: [],  // 存放查询结果
-      page: 1,      // 页码，默认为 1
-      total: "",    // 查询总数
+      page: this.$route.query.page || 1, // 页码，默认为 1
+      total: 0, // 查询总数
     };
+  },
+  /* 实时监听page变化 */
+  watch: {
+    $route(to, from) {
+      if (to.query.page != from.query.page) {
+        this.page = to.query.page;
+        this.onSubmit();
+      }
+    },
   },
   methods: {
     onSubmit() {
-      var that = this;
-      /* 将表单内容添加到formdata中，post请求后台 */
-      let formdata = new FormData();
-      formdata.append("title", this.form.title);
-      formdata.append("content", this.form.content);
-      formdata.append("effect_time_start", String(this.form.effect_time_start));
-      formdata.append("effect_time_end", String(this.form.effect_time_end));
-      formdata.append("pub_time_start", String(this.form.pub_time_start));
-      formdata.append("pub_time_end", String(this.form.pub_time_end));
-      if (this.form.service_type == "全部") {
-        this.form.service_type = "";
-      }
-      formdata.append("service_type", this.form.service_type);
-      if (this.form.scope == "全部") {
-        this.form.scope = "";
-      }
-      formdata.append("scope", this.form.scope);
-      if (this.form.dept == "全部") {
-        this.form.dept = "";
-      }
-      formdata.append("dept", this.form.dept);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data", //以表单传数据的格式来传递 fromdata
-        },
-      };
-      this.axios.post("/criteria_query?page=" + that.page, formdata, config).then(function (response) {
-        that.results = response.data.fileDTOS;
-        that.total = response.data.all_count;
-      }).catch(function (error) {
-        alert(error);
+      this.$store.commit("getformdata", {
+        title: this.form.title,
+        content: this.form.content, //查询内容
+        service_type: this.form.service_type, // 业务类型
+        scope: this.form.scope, // 效力层级
+        dept: this.form.dept, //颁布单位
+        effect_time_start: this.form.effect_time_start,
+        effect_time_end: this.form.effect_time_end,
+        pub_time_start: this.form.pub_time_start,
+        pub_time_end: this.form.pub_time_end,
       });
-      // 查询成功后，清空表单
-      this.title='',//查询标题
-      this.content='',//查询内容
-      this.service_type='全部', // 业务类型
-      this.file_type='全部',//文件类型
-      this.scope='全部',// 效力层级
-      this.dept='全部',//颁布单位
-      this.effect_time_start='',
-      this.effect_time_end='',
-      this.pub_time_start='',
-      this.pub_time_end=''
+      // 使用store.js中的公共查询方法，传入两个参数：page当前页码，formdata表单内容
+      this.$store.commit("search", this.page);
     },
+    reset() {
+      // 查询成功后，清空表单
+      (this.form.title = ""), //查询标题
+        (this.form.content = ""), //查询内容
+        (this.form.service_type = "全部"), // 业务类型
+        (this.form.scope = "全部"), // 效力层级
+        (this.form.dept = "全部"), //颁布单位
+        (this.form.effect_time_start = ""),
+        (this.form.effect_time_end = ""),
+        (this.form.pub_time_start = ""),
+        (this.form.pub_time_end = "");
+    },
+  },
+  components: {
+    pagination,
   },
 };
 </script>
