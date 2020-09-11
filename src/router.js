@@ -14,7 +14,7 @@ var router = new VueRouter({
         {path:'/bbdw', component:Bbdw}, // 颁布单位
         {path:'/fbsj', component:Fbsj}, // 发布时间
         {path:'/common_search', component:CommonSearch},   // 综合查询
-    
+        {path:'/pdf-preview', component:()=> import('./components/subcomponents/File.vue')}
     ]
 })
 

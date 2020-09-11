@@ -93,8 +93,8 @@
           </template>
         </el-table-column>
       </el-table>
+      <pagination :results_len="$store.state.total" :path_name="'xlcj'"></pagination>
     </div>
-    <pagination :results_len="$store.state.total" :path_name="'xlcj'"></pagination>
   </div>
 </template>
 

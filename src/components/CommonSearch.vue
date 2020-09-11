@@ -72,18 +72,7 @@
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="130">
           <template slot-scope="scope">
-            <!-- <a
-              :href="'http://10.141.111.165:8080/file/show/' + scope.row.id"
-              v-html="scope.row.name"
-            ></a>-->
-            <iframe
-              id="pdfPlayer"
-              src="' +URL + '接口?fileName=' +Url) + '"
-              frameborder="0"
-              width="100%"
-              height="600px"
-            ></iframe>
-            <button @click="file_show(scope.row.id)">查看</button>
+            <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
           </template>
         </el-table-column>
         <el-table-column prop="content" label="相关内容" width="130"></el-table-column>
@@ -93,15 +82,13 @@
           </template>
         </el-table-column>
       </el-table>
+      <pagination :results_len="$store.state.total" :path_name="'common_search'"></pagination>
     </div>
-    <pagination :results_len="$store.state.total" :path_name="'common_search'"></pagination>
   </div>
 </template>
 
 <script>
 import pagination from "./subcomponents/Pagination.vue";
-import PDF from "pdfjs-dist";
-PDF.disableWorker = true;
 export default {
   data() {
     return {
@@ -172,6 +159,13 @@ export default {
     },
   },
   methods: {
+   
+    show_file(filename){
+      this.$router.push({
+        path: 'pdf-preview',
+        query: { pdf_url:"http://10.141.111.165:8080/file/show/" + filename },
+      });
+    },
     onSubmit() {
       this.$store.commit("getformdata", {
         title: this.form.title,
@@ -208,4 +202,11 @@ export default {
 
 <style scoped>
 @import "../assets/css/search.css";
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
 </style>
