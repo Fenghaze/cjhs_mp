@@ -9,7 +9,9 @@
       <el-row>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_cbgl" to>
             <img src="../assets/img/cbgl.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link @click.native="search_cbgl" to>船舶管理</router-link>
             </div>
@@ -17,7 +19,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_gsgl" to>
             <img src="../assets/img/gsgl.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_gsgl">公司管理</router-link>
             </div>
@@ -25,7 +29,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_cjgl" to>
             <img src="../assets/img/cjgl.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_cjgl">船检管理</router-link>
             </div>
@@ -33,7 +39,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_cygl" to>
             <img src="../assets/img/cygl.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_cygl">船员管理</router-link>
             </div>
@@ -77,7 +85,9 @@
       <el-row>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_sgdc" to>
             <img src="../assets/img/sgdc.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_sgdc">事故调查</router-link>
             </div>
@@ -85,7 +95,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_zhgl" to>
             <img src="../assets/img/zhgl.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_zhgl">综合管理</router-link>
             </div>
@@ -93,7 +105,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_yjsj" to>
             <img src="../assets/img/yjsj.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_yjsj">应急搜救</router-link>
             </div>
@@ -101,7 +115,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_dnfg" to>
             <img src="../assets/img/dnfg.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_dnfg">党内法规</router-link>
             </div>
@@ -115,15 +131,12 @@
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="250">
           <template slot-scope="scope">
-            <a
-              :href="'http://10.141.111.165:8080/file/show/' + scope.row.id"
-              v-html="scope.row.name"
-            ></a>
+            <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <a :href="'http://10.141.111.165:8080/file/download/' + scope.row.id">下载</a>
+            <a :href="$store.state.base_url +'/file/download/' + scope.row.id">下载</a>
           </template>
         </el-table-column>
       </el-table>
@@ -153,52 +166,82 @@ export default {
     },
   },
   methods: {
-    search_gjgy() {
+    show_file(filename){
+      this.$router.push({
+        path: 'pdf-preview',
+        query: { pdf_url: this.$store.state.base_url + "/file/show/" + filename },
+      });
+    },
+    search_cbgl() {
       this.$store.commit("getformdata", {
-        scope: "国际公约", // 效力层级
+        service_type: "船舶管理", // 业务类型
       });
       // 使用store.js中的公共查询方法，传入两个参数：page当前页码，formdata表单内容
       this.$store.commit("search", this.page);
     },
-    search_fl() {
+    search_gsgl() {
       this.$store.commit("getformdata", {
-        scope: "法律",
+        service_type: "公司管理",
       });
       this.$store.commit("search", this.page);
     },
-    search_xzfg() {
+    search_cjgl() {
       this.$store.commit("getformdata", {
-        scope: "行政法规",
+        service_type: "船检管理",
       });
       this.$store.commit("search", this.page);
     },
-    search_dfxfg() {
+    search_cygl() {
       this.$store.commit("getformdata", {
-        scope: "地方性法规",
+        service_type: "船员管理",
       });
       this.$store.commit("search", this.page);
     },
-    search_bmgz() {
+    search_gfgl() {
       this.$store.commit("getformdata", {
-        scope: "部门规章",
+        service_type: "规费管理",
       });
       this.$store.commit("search", this.page);
     },
-    search_dfzfgz() {
+    search_hhbz() {
       this.$store.commit("getformdata", {
-        scope: "地方政府规章",
+        service_type: "航海保障",
       });
       this.$store.commit("search", this.page);
     },
-    search_gfxwj() {
+    search_wfgl() {
       this.$store.commit("getformdata", {
-        scope: "规范性文件",
+        service_type: "危防管理",
       });
       this.$store.commit("search", this.page);
     },
-    search_others() {
+    search_thgl() {
       this.$store.commit("getformdata", {
-        scope: "其他",
+        service_type: "通航管理",
+      });
+      this.$store.commit("search", this.page);
+    },
+    search_sgdc() {
+      this.$store.commit("getformdata", {
+        service_type: "事故调查",
+      });
+      this.$store.commit("search", this.page);
+    },
+    search_zhgl() {
+      this.$store.commit("getformdata", {
+        service_type: "综合管理",
+      });
+      this.$store.commit("search", this.page);
+    },
+    search_yjsj() {
+      this.$store.commit("getformdata", {
+        service_type: "应急搜救",
+      });
+      this.$store.commit("search", this.page);
+    },
+    search_dnfg() {
+      this.$store.commit("getformdata", {
+        service_type: "党内法规",
       });
       this.$store.commit("search", this.page);
     },

@@ -1,12 +1,18 @@
 <template>
   <div>
-    <div class="title"></div>
+    <div class="title">
+      <router-link to='/comment'>
+        <small style="float:right; margin: 10px;">意见反馈</small>
+      </router-link>
+    </div>
     <!-- 主页功能：效力层级、业务类型、发布时间、颁布单位、综合查询 -->
     <div class="menu">
       <el-row>
         <el-col :span="6">
           <div class="grid-content bg-purple">
-            <img src="../assets/img/xlcj.png" class="grid-img" />
+            <router-link to="/xlcj">
+              <img src="../assets/img/xlcj.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to="/xlcj">效力层级</router-link>
             </div>
@@ -14,7 +20,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link to="/ywlx">
             <img src="../assets/img/ywlx.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to="/ywlx">业务类型</router-link>
             </div>
@@ -22,7 +30,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link to="/fbsj">
             <img src="../assets/img/fbsj.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to="/fbsj">发布时间</router-link>
             </div>
@@ -30,7 +40,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link to="/bbdw">
             <img src="../assets/img/bbdw.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to="/bbdw">颁布单位</router-link>
             </div>

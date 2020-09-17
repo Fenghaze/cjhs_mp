@@ -9,7 +9,9 @@
       <el-row>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_gjgy" to>
             <img src="../assets/img/gjgy.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link @click.native="search_gjgy" to>国际公约</router-link>
             </div>
@@ -17,7 +19,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_fl" to>
             <img src="../assets/img/fl.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_fl">法律</router-link>
             </div>
@@ -25,7 +29,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_xzfg" to>
             <img src="../assets/img/xzfg.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_xzfg">行政法规</router-link>
             </div>
@@ -33,7 +39,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_dfxfg" to>
             <img src="../assets/img/dfxfg.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_dfxfg">地方性法规</router-link>
             </div>
@@ -43,7 +51,9 @@
       <el-row>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_bmgz" to>
             <img src="../assets/img/bmgz.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_bmgz">部门规章</router-link>
             </div>
@@ -51,7 +61,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_dfzfgz" to>
             <img src="../assets/img/dfzfgz.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_dfzfgz">地方政府规章</router-link>
             </div>
@@ -59,7 +71,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple">
+            <router-link @click.native="search_gfxwj" to>
             <img src="../assets/img/gfxwj.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_gfxwj">规范性文件</router-link>
             </div>
@@ -67,7 +81,9 @@
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
+            <router-link @click.native="search_others" to>
             <img src="../assets/img/other.png" class="grid-img" />
+            </router-link>
             <div align="center">
               <router-link to @click.native="search_others">其他</router-link>
             </div>

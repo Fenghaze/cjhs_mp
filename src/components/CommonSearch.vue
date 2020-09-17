@@ -78,7 +78,7 @@
         <el-table-column prop="content" label="相关内容" width="130"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <a :href="'http://10.141.111.165:8080/file/download/' + scope.row.id">下载</a>
+            <a :href="$store.state.base_url +'/file/download/' + scope.row.id">下载</a>
           </template>
         </el-table-column>
       </el-table>
@@ -158,12 +158,13 @@ export default {
       }
     },
   },
+
   methods: {
    
     show_file(filename){
       this.$router.push({
         path: 'pdf-preview',
-        query: { pdf_url:"http://10.141.111.165:8080/file/show/" + filename },
+        query: { pdf_url: this.$store.state.base_url + "/file/show/" + filename },
       });
     },
     onSubmit() {

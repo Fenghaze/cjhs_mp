@@ -1,9 +1,15 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+
 Vue.use(Vuex)
 var store = new Vuex.Store({
     state: {
+        base_url:"http://10.141.111.165:8080",  // 后台API接口
+
         results: [],    //查询结果
         total: 0,       // 查询总数
 
