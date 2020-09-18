@@ -15,6 +15,7 @@
     "element-ui": "^2.13.2",
     "pdfjs-dist": "^2.4.456",
     "sass-loader": "^10.0.2",
+    "scss-loader": "0.0.1",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
     "vue-loader": "^11.3.4",
@@ -31,6 +32,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.12.2",
     "less-loader": "^7.0.1",
+    "node-sass": "^4.14.1",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

@@ -6,21 +6,45 @@
     </div>
     <!-- 综合查询表单 -->
     <div class="search_menu">
-      <el-form :label-position="labelPosition" label-width="80px" :model="form">
-        <el-form-item label="查询标题">
-          <el-input v-model="form.title"></el-input>
-        </el-form-item>
-        <el-form-item label="查询内容">
-          <el-input v-model="form.content"></el-input>
-        </el-form-item>
-        <el-form-item label="业务类型">
-          <el-select v-model="form.service_type" style="width:100%">
-            <el-option v-for="item in form.types" :key="item" :value="item">{{item}}</el-option>
+      <el-form
+        :label-position="labelPosition"
+        label-width="80px"
+        :model="form"
+        :rules="rules"
+        ref="form"
+      >
+        <el-form-item label="反馈类型" prop="type">
+          <el-select v-model="form.type" style="width:100%">
+            <el-option v-for="item in form.select" :key="item" :value="item">{{item}}</el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="float:right">
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button type="primary" @click="reset">重置</el-button>
+        <el-form-item label="反馈内容" prop="content">
+          <el-input
+            type="textarea"
+            v-model="form.content"
+            placeholder="请输入您的意见，我们将不断改进！"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="上传图片">
+          <el-button @click="onPickFile"  style="width:100%">{{form.img_name}}<i class="el-icon-upload el-icon--right"></i></el-button>
+          <input
+            type="file"
+            ref="fileInput"
+            accept="image/*"
+            @change="getFile"
+            style="display: none"
+          />
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式">
+          <el-input v-model="form.tel"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submit('form')" style="width:100%">提交反馈</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -34,50 +58,39 @@ export default {
       page: 1,
       total: 0,
       form: {
-        img: "",
-        img_name: "",
-        type: "",
-        select: ["文件增加", "文件修改", "功能反馈"],
-        author: "",
-        tel: "",
-        content: "",
+        img: "", // 上传的图片
+        img_name: "选择图片", // 图片名
+        type: "", // 反馈类型
+        select: ["文件增加", "文件修改", "功能反馈"], // 反馈类型选项
+        name: "", // 姓名
+        tel: "", // 联系方式
+        content: "", // 反馈内容
       },
+
+      labelPosition: "top",
       rules: {
-        author: [
-          { required: true, message: "请输入姓名", trigger: "blur" },
-          {
-            min: 2,
-            max: 10,
-            message: "长度在 2 到 10 个字符",
-            trigger: "blur",
-          },
-        ],
-        tel: [{ required: true, message: "请输入联系方式", trigger: "blur" }],
         content: [
-          { required: true, message: "请输入您的意见", trigger: "blur" },
+          { required: true, message: "请填写反馈意见！", trigger: "blur" },
         ],
         type: [
-          { required: true, message: "请选择意见类型", trigger: "change" },
+          { required: true, message: "请选择反馈类型！", trigger: "change" },
         ],
       },
-
-      labelPosition: "right",
-
-      comments_lst: [],
-      state: 1,
     };
   },
   created() {},
   mounted() {},
   methods: {
-    upload(event) {
-      this.form.img = event.target.files[0];
-      var iMaxFilesize = 2097152; //2M
-      if (this.form.img.size > iMaxFilesize) {
-        alert("图片大小不能超过2M");
-        return;
-      }
+    /* 上传图片 */
+    onPickFile () {
+      this.$refs.fileInput.click()
     },
+    /* 获取图片 */
+    getFile(event) {
+      this.form.img = event.target.files[0];  // 获取图片对象，0表示只有一个文件
+      this.form.img_name = event.target.files[0].name // 获取图片名
+    },
+    /* 提交表单 */
     submit(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
@@ -86,7 +99,7 @@ export default {
           if (this.form.img != "") {
             formdata.append("img", this.form.img);
           }
-          formdata.append("name", this.form.author);
+          formdata.append("name", this.form.name);
           formdata.append("phone", this.form.tel);
           formdata.append("type", this.form.type);
           formdata.append("advice", this.form.content);
@@ -118,5 +131,8 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
+/deep/ .el-form--label-top .el-form-item__label {
+  float: left;
+}
 </style>
