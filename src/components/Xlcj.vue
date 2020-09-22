@@ -97,15 +97,12 @@
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="250">
           <template slot-scope="scope">
-            <a
-              :href="'http://10.141.111.165:8080/file/show/' + scope.row.id"
-              v-html="scope.row.name"
-            ></a>
+            <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <a :href="'http://10.141.111.165:8080/file/download/' + scope.row.id">下载</a>
+            <a :href="$store.state.base_url +'/file/download/' + scope.row.id">下载</a>
           </template>
         </el-table-column>
       </el-table>
@@ -130,11 +127,16 @@ export default {
     $route(to, from) {
       if (to.query.page != from.query.page) {
         this.page = to.query.page;
-        this.onSubmit();
       }
     },
   },
   methods: {
+    show_file(filename){
+      this.$router.push({
+        path: 'pdf-preview',
+        query: { pdf_url: this.$store.state.base_url + "/file/show/" + filename },
+      });
+    },
     search_gjgy() {
       this.$store.commit("getformdata", {
         scope: "国际公约", // 效力层级

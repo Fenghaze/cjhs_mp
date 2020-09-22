@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 var store = new Vuex.Store({
     state: {
-        base_url:"http://10.141.111.165:8080",  // 后台API接口
+        base_url: "http://10.141.111.165:8080",  // 后台API接口
 
         results: [],    //查询结果
         total: 0,       // 查询总数
@@ -26,18 +26,18 @@ var store = new Vuex.Store({
     mutations: {
         search(state, page) {
             let formdata = new FormData();
-            formdata.append('title',state.title);
-            formdata.append('content',state.content);
-            formdata.append('effect_time_start',String(state.effect_time_start));
-            formdata.append('effect_time_end',String(state.effect_time_end));
-            formdata.append('pub_time_start',String(state.pub_time_start));
-            formdata.append('pub_time_end',String(state.pub_time_end));
-            if(state.service_type == '全部') {state.service_type=''}
-            formdata.append('service_type',state.service_type);
-            if(state.scope == '全部') {state.scope=''}
-            formdata.append('scope',state.scope);
-            if(state.dept == '全部') {state.dept=''}
-            formdata.append('dept',state.dept);
+            formdata.append('title', state.title);
+            formdata.append('content', state.content);
+            formdata.append('effect_time_start', String(state.effect_time_start));
+            formdata.append('effect_time_end', String(state.effect_time_end));
+            formdata.append('pub_time_start', String(state.pub_time_start));
+            formdata.append('pub_time_end', String(state.pub_time_end));
+            if (state.service_type == '全部') { state.service_type = '' }
+            formdata.append('service_type', state.service_type);
+            if (state.scope == '全部') { state.scope = '' }
+            formdata.append('scope', state.scope);
+            if (state.dept == '全部') { state.dept = '' }
+            formdata.append('dept', state.dept);
             let config = {
                 headers: {
                     "Content-Type": "multipart/form-data", //以表单传数据的格式来传递 fromdata
@@ -61,7 +61,7 @@ var store = new Vuex.Store({
             state.pub_time_end = ''
         },
         /* 获取表单数据 */
-        getformdata(state, data){
+        getformdata(state, data) {
             state.title = data.title || ''
             state.content = data.content || ''
             state.service_type = data.service_type || ''

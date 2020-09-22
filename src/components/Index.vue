@@ -60,6 +60,18 @@
     <!-- 最近浏览 -->
     <div style="font-size: large;padding: 1rem">
       <b style="float:left">最近浏览</b>
+      <el-table :data="results" stripe style="width: 100%" v-if="results">
+        <el-table-column label="文件名" width="250">
+          <template slot-scope="scope">
+            <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <a :href="$store.state.base_url +'/file/download/' + scope.row.id">下载</a>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
@@ -67,7 +79,28 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      results:'',
+    };
+  },
+  created(){
+    this.get_recent();
+  },
+  methods:{
+    show_file(filename){
+      this.$router.push({
+        path: 'pdf-preview',
+        query: { pdf_url: this.$store.state.base_url + "/file/show/" + filename },
+      });
+    },
+    get_recent(){
+      var that = this
+      this.axios.get('/file/recent_read').then((res)=>{
+        that.results = res.data.fileDTOS
+      }).catch((err)=>{
+        alert(err)
+      })
+    },
   },
   components: {},
 };

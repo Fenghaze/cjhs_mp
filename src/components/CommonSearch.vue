@@ -154,7 +154,7 @@ export default {
     $route(to, from) {
       if (to.query.page != from.query.page) {
         this.page = to.query.page;
-        this.onSubmit();
+        //this.onSubmit();
       }
     },
   },
