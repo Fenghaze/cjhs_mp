@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 var store = new Vuex.Store({
     state: {
-        base_url: "http://10.141.111.165:8080",  // 后台API接口
+        base_url: "http://192.168.3.6:8080",  // 后台API接口
 
         results: [],    //查询结果
         total: 0,       // 查询总数
@@ -50,7 +50,7 @@ var store = new Vuex.Store({
                 .catch(function (error) {
                     alert(error);
                 });
-            state.title = ''
+            /* state.title = ''
             state.content = ''
             state.service_type = '全部'
             state.scope = '全部'
@@ -58,7 +58,7 @@ var store = new Vuex.Store({
             state.effect_time_start = ''
             state.effect_time_end = ''
             state.pub_time_start = ''
-            state.pub_time_end = ''
+            state.pub_time_end = '' */
         },
         /* 获取表单数据 */
         getformdata(state, data) {

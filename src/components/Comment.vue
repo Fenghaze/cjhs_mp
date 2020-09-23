@@ -4,7 +4,7 @@
     <div class="search_title">
       <h1 style="margin-top: 15px;">意见反馈</h1>
     </div>
-    <!-- 综合查询表单 -->
+    <!-- 表单 -->
     <div class="search_menu">
       <el-form
         :label-position="labelPosition"

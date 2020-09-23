@@ -31,21 +31,22 @@
       </el-form>
     </div>
     <!-- 查询结果 -->
-    <div style="font-size: large;padding: 1rem; margin-top:50px">
+    <div style="font-size: large;padding: 1rem; margin-top:50px" v-if="$store.state.total">
       <b style="float:left">最新</b>
       <el-table :data="$store.state.results" stripe style="width: 100%">
-        <el-table-column label="文件名" width="250">
+        <el-table-column label="文件名" width="170">
           <template slot-scope="scope">
             <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column prop="pub_time_s" label="发布时间"></el-table-column>
+        <el-table-column label="操作" width="50">
           <template slot-scope="scope">
             <a :href="$store.state.base_url +'/file/download/' + scope.row.id">下载</a>
           </template>
         </el-table-column>
       </el-table>
-      <pagination :results_len="$store.state.total" :path_name="'xlcj'"></pagination>
+      <pagination :results_len="$store.state.total" :path_name="'fbsj'"></pagination>
     </div>
   </div>
 </template>
@@ -67,12 +68,21 @@ export default {
   components: {
     pagination,
   },
+  /* 监听路由 */
   watch: {
     $route(to, from) {
+      // 监控路由，实时刷新内容
       if (to.query.page != from.query.page) {
         this.page = to.query.page;
+        this.onSubmit();  //执行查询
       }
     },
+  },
+  beforeRouteLeave (to, from, next) {
+    this.busy = true
+    this.$store.state.results = []
+    this.$store.state.total = 0
+    next()
   },
   created() {
     this.$store.commit("getformdata", {

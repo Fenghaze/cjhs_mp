@@ -67,7 +67,7 @@
       </el-form>
     </div>
     <!-- 查询结果 -->
-    <div style="font-size: large;padding: 1rem">
+    <div style="font-size: large;padding: 1rem" v-if="$store.state.total">
       <b style="float:left">查询结果</b>
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="130">
@@ -82,7 +82,11 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination :results_len="$store.state.total" :path_name="'common_search'"></pagination>
+      <pagination
+        :results_len="$store.state.total"
+        :path_name="search_name"
+        :search_type="search_type"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -95,8 +99,9 @@ export default {
       width: 100,
       pdfDoc: null,
       pages: 0,
-
+      search_name: "common_search",
       labelPosition: "right",
+      search_type: "",
       form: {
         title: "", // 查询标题
         content: "", // 查询内容
@@ -145,26 +150,23 @@ export default {
         pub_time_start: "", // 开始发布时间
         pub_time_end: "", // 结束发布时间
       },
-      page: this.$route.query.page || 1, // 页码，默认为 1
+      page: 1, // 页码，默认为 1
       total: 0, // 查询总数
     };
   },
-  /* 实时监听page变化 */
-  watch: {
-    $route(to, from) {
-      if (to.query.page != from.query.page) {
-        this.page = to.query.page;
-        //this.onSubmit();
-      }
-    },
+  beforeRouteLeave(to, from, next) {
+    this.busy = true;
+    this.$store.state.results = [];
+    this.$store.state.total = 0;
+    next();
   },
-
   methods: {
-   
-    show_file(filename){
+    show_file(filename) {
       this.$router.push({
-        path: 'pdf-preview',
-        query: { pdf_url: this.$store.state.base_url + "/file/show/" + filename },
+        path: "pdf-preview",
+        query: {
+          pdf_url: this.$store.state.base_url + "/file/show/" + filename,
+        },
       });
     },
     onSubmit() {

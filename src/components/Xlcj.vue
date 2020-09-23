@@ -92,7 +92,7 @@
       </el-row>
     </div>
     <!-- 查询结果 -->
-    <div style="font-size: large;padding: 1rem">
+    <div style="font-size: large;padding: 1rem" v-if="$store.state.total">
       <b style="float:left">查询结果</b>
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="250">
@@ -106,7 +106,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination :results_len="$store.state.total" :path_name="'xlcj'"></pagination>
+      <pagination :results_len="$store.state.total" :path_name="'xlcj'" :search_type="scope"></pagination>
     </div>
   </div>
 </template>
@@ -118,17 +118,17 @@ export default {
     return {
       page: this.$route.query.page || 1, // 页码，默认为 1
       total: 0, // 查询总数
+      scope:'',
     };
   },
   components: {
     pagination,
   },
-  watch: {
-    $route(to, from) {
-      if (to.query.page != from.query.page) {
-        this.page = to.query.page;
-      }
-    },
+  beforeRouteLeave (to, from, next) {
+    this.busy = true
+    this.$store.state.results = []
+    this.$store.state.total = 0
+    next()
   },
   methods: {
     show_file(filename){
@@ -138,51 +138,59 @@ export default {
       });
     },
     search_gjgy() {
+      this.scope = "国际公约"
       this.$store.commit("getformdata", {
-        scope: "国际公约", // 效力层级
+        scope: this.scope, // 效力层级
       });
       // 使用store.js中的公共查询方法，传入两个参数：page当前页码，formdata表单内容
       this.$store.commit("search", this.page);
     },
     search_fl() {
+      this.scope = "法律"
       this.$store.commit("getformdata", {
-        scope: "法律",
+        scope: this.scope
       });
       this.$store.commit("search", this.page);
     },
     search_xzfg() {
+      this.scope = "行政法规"
       this.$store.commit("getformdata", {
-        scope: "行政法规",
+        scope: this.scope,
       });
       this.$store.commit("search", this.page);
     },
     search_dfxfg() {
+      this.scope = "地方性法规"
       this.$store.commit("getformdata", {
-        scope: "地方性法规",
+        scope: this.scope,
       });
       this.$store.commit("search", this.page);
     },
     search_bmgz() {
+      this.scope = "部门规章"
       this.$store.commit("getformdata", {
-        scope: "部门规章",
+        scope: this.scope,
       });
       this.$store.commit("search", this.page);
     },
     search_dfzfgz() {
+      this.scope = "地方政府规章"
       this.$store.commit("getformdata", {
-        scope: "地方政府规章",
+        scope: this.scope,
       });
       this.$store.commit("search", this.page);
     },
     search_gfxwj() {
+      this.scope = "地方政府规章"
       this.$store.commit("getformdata", {
-        scope: "规范性文件",
+        scope: this.scope,
       });
       this.$store.commit("search", this.page);
     },
     search_others() {
+      this.scope = "其他"
       this.$store.commit("getformdata", {
-        scope: "其他",
+        scope: this.scope,
       });
       this.$store.commit("search", this.page);
     },

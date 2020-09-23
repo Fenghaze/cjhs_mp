@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">
-      <router-link to='/comment'>
+      <router-link to="/comment">
         <small style="float:right; margin: 10px;">意见反馈</small>
       </router-link>
     </div>
@@ -21,7 +21,7 @@
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
             <router-link to="/ywlx">
-            <img src="../assets/img/ywlx.png" class="grid-img" />
+              <img src="../assets/img/ywlx.png" class="grid-img" />
             </router-link>
             <div align="center">
               <router-link to="/ywlx">业务类型</router-link>
@@ -31,7 +31,7 @@
         <el-col :span="6">
           <div class="grid-content bg-purple">
             <router-link to="/fbsj">
-            <img src="../assets/img/fbsj.png" class="grid-img" />
+              <img src="../assets/img/fbsj.png" class="grid-img" />
             </router-link>
             <div align="center">
               <router-link to="/fbsj">发布时间</router-link>
@@ -41,7 +41,7 @@
         <el-col :span="6">
           <div class="grid-content bg-purple-light">
             <router-link to="/bbdw">
-            <img src="../assets/img/bbdw.png" class="grid-img" />
+              <img src="../assets/img/bbdw.png" class="grid-img" />
             </router-link>
             <div align="center">
               <router-link to="/bbdw">颁布单位</router-link>
@@ -58,9 +58,9 @@
       </el-row>
     </div>
     <!-- 最近浏览 -->
-    <div style="font-size: large;padding: 1rem">
+    <div style="font-size: large;padding: 1rem" v-if="results.length">
       <b style="float:left">最近浏览</b>
-      <el-table :data="results" stripe style="width: 100%" v-if="results">
+      <el-table :data="results" stripe style="width: 100%">
         <el-table-column label="文件名" width="250">
           <template slot-scope="scope">
             <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
@@ -80,26 +80,31 @@
 export default {
   data() {
     return {
-      results:'',
+      results: [],
     };
   },
-  created(){
+  created() {
     this.get_recent();
   },
-  methods:{
-    show_file(filename){
+  methods: {
+    show_file(filename) {
       this.$router.push({
-        path: 'pdf-preview',
-        query: { pdf_url: this.$store.state.base_url + "/file/show/" + filename },
+        path: "pdf-preview",
+        query: {
+          pdf_url: this.$store.state.base_url + "/file/show/" + filename,
+        },
       });
     },
-    get_recent(){
-      var that = this
-      this.axios.get('/file/recent_read').then((res)=>{
-        that.results = res.data.fileDTOS
-      }).catch((err)=>{
-        alert(err)
-      })
+    get_recent() {
+      var that = this;
+      this.axios
+        .get("/file/recent_read")
+        .then(function (response) {
+          that.results = response.data;
+        })
+        .catch(function (error) {
+          alert(error);
+        });
     },
   },
   components: {},

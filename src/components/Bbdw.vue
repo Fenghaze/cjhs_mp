@@ -90,7 +90,7 @@
       </el-row>
     </div>
     <!-- 查询结果 -->
-    <div style="font-size: large;padding: 1rem">
+    <div style="font-size: large;padding: 1rem" v-if="$store.state.total">
       <b style="float:left">查询结果</b>
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="250">
@@ -104,7 +104,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination :results_len="$store.state.total" :path_name="'xlcj'"></pagination>
+      <pagination :results_len="$store.state.total" :path_name="'bbdw'" :search_type="dept"></pagination>
     </div>
   </div>
 </template>
@@ -116,17 +116,17 @@ export default {
     return {
       page: this.$route.query.page || 1, // 页码，默认为 1
       total: 0, // 查询总数
+      dept:'',
     };
   },
   components: {
     pagination,
   },
-  watch: {
-    $route(to, from) {
-      if (to.query.page != from.query.page) {
-        this.page = to.query.page;
-      }
-    },
+  beforeRouteLeave (to, from, next) {
+    this.busy = true
+    this.$store.state.results = []
+    this.$store.state.total = 0
+    next()
   },
   methods: {
     show_file(filename){
@@ -136,6 +136,7 @@ export default {
       });
     },
     search_qgrd() {
+      this.dept = "全国人大"
       this.$store.commit("getformdata", {
         dept: "全国人大", // 颁布单位
       });
@@ -143,42 +144,49 @@ export default {
       this.$store.commit("search", this.page);
     },
     search_gwy() {
+      this.dept = "国务院"
       this.$store.commit("getformdata", {
         dept: "国务院",
       });
       this.$store.commit("search", this.page);
     },
     search_jtysb() {
+      this.dept = "交通运输部"
       this.$store.commit("getformdata", {
         dept: "交通运输部",
       });
       this.$store.commit("search", this.page);
     },
     search_dffg() {
+      this.dept = "地方人大、政府"
       this.$store.commit("getformdata", {
         dept: "地方人大、政府",
       });
       this.$store.commit("search", this.page);
     },
     search_jtysbhsj() {
+      this.dept = "交通运输部海事局"
       this.$store.commit("getformdata", {
         dept: "交通运输部海事局",
       });
       this.$store.commit("search", this.page);
     },
     search_cjhwglj() {
+      this.dept = "长江航务管理局"
       this.$store.commit("getformdata", {
         dept: "长江航务管理局",
       });
       this.$store.commit("search", this.page);
     },
     search_cjhsj() {
+      this.dept = "长江海事局"
       this.$store.commit("getformdata", {
         dept: "长江海事局",
       });
       this.$store.commit("search", this.page);
     },
     search_jshsj() {
+      this.dept = "江苏海事局"
       this.$store.commit("getformdata", {
         dept: "江苏海事局",
       });

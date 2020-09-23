@@ -126,7 +126,7 @@
       </el-row>
     </div>
     <!-- 查询结果 -->
-    <div style="font-size: large;padding: 1rem">
+    <div style="font-size: large;padding: 1rem" v-if="$store.state.total">
       <b style="float:left">查询结果</b>
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="250">
@@ -140,8 +140,9 @@
           </template>
         </el-table-column>
       </el-table>
+    <pagination :results_len="$store.state.total" :path_name="'ywlx'" :search_type="service"></pagination>
+
     </div>
-    <pagination :results_len="$store.state.total" :path_name="'xlcj'"></pagination>
   </div>
 </template>
 
@@ -150,19 +151,19 @@ import pagination from "./subcomponents/Pagination.vue";
 export default {
   data() {
     return {
-      page: this.$route.query.page || 1, // 页码，默认为 1
+      page: 1, // 页码，默认为 1
       total: 0, // 查询总数
+      service:''
     };
   },
   components: {
     pagination,
   },
-  watch: {
-    $route(to, from) {
-      if (to.query.page != from.query.page) {
-        this.page = to.query.page;
-      }
-    },
+  beforeRouteLeave (to, from, next) {
+    this.busy = true
+    this.$store.state.results = []
+    this.$store.state.total = 0
+    next()
   },
   methods: {
     show_file(filename){
@@ -172,6 +173,7 @@ export default {
       });
     },
     search_cbgl() {
+      this.service = "船舶管理"
       this.$store.commit("getformdata", {
         service_type: "船舶管理", // 业务类型
       });
@@ -179,66 +181,77 @@ export default {
       this.$store.commit("search", this.page);
     },
     search_gsgl() {
+      this.service = "公司管理"
       this.$store.commit("getformdata", {
         service_type: "公司管理",
       });
       this.$store.commit("search", this.page);
     },
     search_cjgl() {
+      this.service = "船检管理"
       this.$store.commit("getformdata", {
         service_type: "船检管理",
       });
       this.$store.commit("search", this.page);
     },
     search_cygl() {
+      this.service = "船员管理"
       this.$store.commit("getformdata", {
         service_type: "船员管理",
       });
       this.$store.commit("search", this.page);
     },
     search_gfgl() {
+      this.service = "规费管理"
       this.$store.commit("getformdata", {
         service_type: "规费管理",
       });
       this.$store.commit("search", this.page);
     },
     search_hhbz() {
+      this.service = "航海保障"
       this.$store.commit("getformdata", {
         service_type: "航海保障",
       });
       this.$store.commit("search", this.page);
     },
     search_wfgl() {
+      this.service = "危防管理"
       this.$store.commit("getformdata", {
         service_type: "危防管理",
       });
       this.$store.commit("search", this.page);
     },
     search_thgl() {
+      this.service = "通航管理"
       this.$store.commit("getformdata", {
         service_type: "通航管理",
       });
       this.$store.commit("search", this.page);
     },
     search_sgdc() {
+      this.service = "事故调查"
       this.$store.commit("getformdata", {
         service_type: "事故调查",
       });
       this.$store.commit("search", this.page);
     },
     search_zhgl() {
+      this.service = "综合管理"
       this.$store.commit("getformdata", {
         service_type: "综合管理",
       });
       this.$store.commit("search", this.page);
     },
     search_yjsj() {
+      this.service = "应急搜救"
       this.$store.commit("getformdata", {
         service_type: "应急搜救",
       });
       this.$store.commit("search", this.page);
     },
     search_dnfg() {
+      this.service = "党内法规"
       this.$store.commit("getformdata", {
         service_type: "党内法规",
       });
