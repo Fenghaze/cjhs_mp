@@ -1,5 +1,8 @@
 module.exports = {
-    publicPath: './',
+    publicPath: '/',
     assetsDir: 'static',
-    parallel: false
+    parallel: false,
+    devServer:{
+        port:8011,
+    }
 }

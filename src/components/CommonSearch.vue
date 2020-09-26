@@ -2,7 +2,7 @@
   <div>
     <!-- 标题 -->
     <div class="search_title">
-      <h1 style="margin-top: 15px;">综合查询</h1>
+      <h1 style="margin-top: 15px">综合查询</h1>
     </div>
     <!-- 综合查询表单 -->
     <div class="search_menu">
@@ -14,18 +14,24 @@
           <el-input v-model="form.content"></el-input>
         </el-form-item>
         <el-form-item label="业务类型">
-          <el-select v-model="form.service_type" style="width:100%">
-            <el-option v-for="item in form.types" :key="item" :value="item">{{item}}</el-option>
+          <el-select v-model="form.service_type" style="width: 100%">
+            <el-option v-for="item in form.types" :key="item" :value="item">{{
+              item
+            }}</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="效力层级">
-          <el-select v-model="form.scope" style="width:100%">
-            <el-option v-for="item in form.scopes" :key="item" :value="item">{{item}}</el-option>
+          <el-select v-model="form.scope" style="width: 100%">
+            <el-option v-for="item in form.scopes" :key="item" :value="item">{{
+              item
+            }}</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="颁布单位">
-          <el-select v-model="form.dept" style="width:100%">
-            <el-option v-for="item in form.depts" :key="item" :value="item">{{item}}</el-option>
+          <el-select v-model="form.dept" style="width: 100%">
+            <el-option v-for="item in form.depts" :key="item" :value="item">{{
+              item
+            }}</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="生效时间">
@@ -33,14 +39,15 @@
             type="date"
             placeholder="选择开始日期"
             v-model="form.effect_time_start"
-            style="width: 100%;"
+            style="width: 100%"
             value-format="yyyy-MM-dd"
-          ></el-date-picker>至
+          ></el-date-picker
+          >至
           <el-date-picker
             type="date"
             placeholder="选择结束日期"
             v-model="form.effect_time_end"
-            style="width: 100%;"
+            style="width: 100%"
             value-format="yyyy-MM-dd"
           ></el-date-picker>
         </el-form-item>
@@ -49,36 +56,47 @@
             type="date"
             placeholder="选择开始日期"
             v-model="form.pub_time_start"
-            style="width: 100%;"
+            style="width: 100%"
             value-format="yyyy-MM-dd"
-          ></el-date-picker>至
+          ></el-date-picker
+          >至
           <el-date-picker
             type="date"
             placeholder="选择结束日期"
             v-model="form.pub_time_end"
-            style="width: 100%;"
+            style="width: 100%"
             value-format="yyyy-MM-dd"
           ></el-date-picker>
         </el-form-item>
-        <el-form-item style="float:right">
+        <el-form-item style="float: right">
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button type="primary" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
     <!-- 查询结果 -->
-    <div style="font-size: large;padding: 1rem" v-if="$store.state.total">
-      <b style="float:left">查询结果</b>
+    <div style="font-size: large; padding: 1rem" v-if="$store.state.total">
+      <b style="float: left">查询结果</b>
       <el-table :data="$store.state.results" stripe style="width: 100%">
         <el-table-column label="文件名" width="130">
           <template slot-scope="scope">
-            <router-link @click.native="show_file(scope.row.id)" v-html="scope.row.name" to></router-link>
+            <router-link
+              @click.native="show_file(scope.row.id)"
+              v-html="scope.row.name"
+              to
+            ></router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="相关内容" width="130"></el-table-column>
+        <el-table-column label="相关内容" width="130">
+          <template slot-scope="scope">
+            <div v-html="scope.row.content"></div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <a :href="$store.state.base_url +'/file/download/' + scope.row.id">下载</a>
+            <a :href="$store.state.base_url + '/file/download/' + scope.row.id"
+              >下载</a
+            >
           </template>
         </el-table-column>
       </el-table>

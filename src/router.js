@@ -7,6 +7,7 @@ import Fbsj from './components/Fbsj.vue'
 import CommonSearch from './components/CommonSearch.vue'
 
 var router = new VueRouter({
+    //base:'/mp',
     routes: [
         { path: '/', component: Index, meta: { title: '法律法规服务系统' } },// 主页
         { path: '/xlcj', component: Xlcj, meta: { title: '效力层级查询' } }, // 效力层级

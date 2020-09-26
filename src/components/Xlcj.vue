@@ -181,7 +181,7 @@ export default {
       this.$store.commit("search", this.page);
     },
     search_gfxwj() {
-      this.scope = "地方政府规章"
+      this.scope = "规范性文件"
       this.$store.commit("getformdata", {
         scope: this.scope,
       });
