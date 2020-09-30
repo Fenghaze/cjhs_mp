@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 
 // 后台接口地址
 //axios.defaults.withCredentials = true //允许携带cookie
-axios.defaults.baseURL='http://localhost:8080'
+axios.defaults.baseURL='/'
 
 new Vue({
   render: h => h(App),
