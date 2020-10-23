@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 var store = new Vuex.Store({
     state: {
-        base_url: "http://cjhsflfg.cn:8080/",  // 后台API接口
+        base_url: "http://localhost:8080",  // 后台API接口
 
         results: [],    //查询结果
         total: 0,       // 查询总数
